@@ -1,0 +1,28 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class AIMoving : MonoBehaviour
+{
+    public Rigidbody AI;
+    void Start()
+    {
+        StartCoroutine(MoveObject());
+    }
+    IEnumerator MoveObject()
+    {
+        AI = GetComponent<Rigidbody>();
+
+        while(true)
+        {
+            float dir1 = Random.Range(-5f, 5f);
+            float dir2 = Random.Range(-5f, 5f);
+
+            yield return new WaitForSeconds(2);
+            AI.velocity = new Vector3(dir1, 0, dir2);
+        }
+
+
+    }
+
+}
