@@ -7,8 +7,9 @@ public class PlayerConT : MonoBehaviour
     public FixedJoystick LeftJoystick;
     public FixedButton Button;
     public FixedTouchField Touchfield;
-    public FixedButton JumpButton;
-
+    public Collider AtkCollL;
+    public Collider AtkCollR;
+    
     protected Actions Actions;
     protected PlayerController PlayerController;
     protected Rigidbody Rigidbody;
@@ -27,6 +28,8 @@ public class PlayerConT : MonoBehaviour
         Actions = GetComponent<Actions>();
         PlayerController = GetComponent<PlayerController>();
         Rigidbody = GetComponent<Rigidbody>();
+        AtkCollR.enabled = false;
+        AtkCollL.enabled = false;
     }
 
     // Update is called once per frame
@@ -34,7 +37,6 @@ public class PlayerConT : MonoBehaviour
     {
         Walk();
         Attack();
-        Jump();
     }
 
     private void Walk()
@@ -63,13 +65,11 @@ public class PlayerConT : MonoBehaviour
         if (Button.Pressed)
         {
             Actions.Attack();
+            AtkCollR.enabled = true;
+            AtkCollL.enabled = true;
         }
         
     }
 
-    private void Jump()
-    {
-        if (JumpButton.Pressed)
-            Actions.Jump();
-    }
+    
 }
