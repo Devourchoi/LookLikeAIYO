@@ -1,0 +1,60 @@
+using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.SceneManagement;
+using UnityEngine;
+using UnityEngine.UI;
+
+
+public class GameManager : MonoBehaviourPunCallbacks
+{
+
+    
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null) instance = FindObjectOfType<GameManager>();
+
+            return Instance;
+        }
+    }
+
+    private static GameManager instance;
+
+    public GameObject playerPrefab;
+    public Transform[] spawnPositions;
+
+    [SerializeField]
+    private int menuSceneIndex;
+
+    private void Start()
+    {
+
+        SpawnPlayer();
+
+    }
+
+    private void SpawnPlayer()
+    {
+        var localplayerIndex = PhotonNetwork.LocalPlayer.ActorNumber - 1;
+        var spawnPosition = spawnPositions[localplayerIndex % spawnPositions.Length];
+
+        if (PhotonNetwork.LocalPlayer.ActorNumber == 1)
+        {
+            PhotonNetwork.Instantiate("Player(1)", spawnPosition.position, spawnPosition.rotation);
+        }
+
+        if (PhotonNetwork.LocalPlayer.ActorNumber == 2)
+        {
+            PhotonNetwork.Instantiate("Player(2)", spawnPosition.position, spawnPosition.rotation);
+        }
+    }
+
+    public void ReturnToMenu()
+    {
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(menuSceneIndex);
+    }
+
+
+}
